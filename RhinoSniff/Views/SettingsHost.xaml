@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="RhinoSniff.Views.SettingsHost"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             FontFamily="{DynamicResource AppFontFamily}"
+             Background="{DynamicResource AppBg}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Outer header -->
+        <Border Grid.Row="0" Background="{DynamicResource AppBg}" Padding="14,10"
+                BorderBrush="{DynamicResource Divider}" BorderThickness="0,0,0,1">
+            <TextBlock Text="Settings"
+                       FontSize="18" FontWeight="SemiBold"
+                       Foreground="{DynamicResource TextPrimary}"
+                       VerticalAlignment="Center" />
+        </Border>
+
+        <!-- Body: sub-sidebar (left) + sub-page host (right) -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Sub-sidebar -->
+            <Border Grid.Column="0"
+                    Background="{DynamicResource SidebarBg}"
+                    BorderBrush="{DynamicResource Divider}" BorderThickness="0,0,1,0"
+                    Padding="8,12">
+                <StackPanel>
+                    <Button x:Name="SubNavNetwork" Height="36" HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left" Padding="14,0" Cursor="Arrow"
+                            Background="{x:Null}" BorderBrush="{x:Null}"
+                            Foreground="{DynamicResource SidebarItemInactive}"
+                            Click="SubNavNetwork_Click"
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="LanConnect" Width="16" Height="16" Margin="0,0,10,0" />
+                            <TextBlock Text="Network" FontSize="12" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="SubNavGeneral" Height="36" HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left" Padding="14,0" Cursor="Arrow"
+                            Background="{x:Null}" BorderBrush="{x:Null}"
+                            Foreground="{DynamicResource SidebarItemInactive}"
+                            Click="SubNavGeneral_Click"
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="CogOutline" Width="16" Height="16" Margin="0,0,10,0" />
+                            <TextBlock Text="General" FontSize="12" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="SubNavHotkeys" Height="36" HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left" Padding="14,0" Cursor="Arrow"
+                            Background="{x:Null}" BorderBrush="{x:Null}"
+                            Foreground="{DynamicResource SidebarItemInactive}"
+                            Click="SubNavHotkeys_Click"
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="KeyboardOutline" Width="16" Height="16" Margin="0,0,10,0" />
+                            <TextBlock Text="Hotkeys" FontSize="12" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="SubNavAppearance" Height="36" HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left" Padding="14,0" Cursor="Arrow"
+                            Background="{x:Null}" BorderBrush="{x:Null}"
+                            Foreground="{DynamicResource SidebarItemInactive}"
+                            Click="SubNavAppearance_Click"
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Palette" Width="16" Height="16" Margin="0,0,10,0" />
+                            <TextBlock Text="Appearance" FontSize="12" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="SubNavPerformance" Height="36" HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left" Padding="14,0" Cursor="Arrow"
+                            Background="{x:Null}" BorderBrush="{x:Null}"
+                            Foreground="{DynamicResource SidebarItemInactive}"
+                            Click="SubNavPerformance_Click"
+                            Style="{StaticResource MaterialDesignFlatButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Speedometer" Width="16" Height="16" Margin="0,0,10,0" />
+                            <TextBlock Text="Performance" FontSize="12" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!-- Sub-page host -->
+            <ContentControl x:Name="SubContent" Grid.Column="1" />
+        </Grid>
+    </Grid>
+</UserControl>

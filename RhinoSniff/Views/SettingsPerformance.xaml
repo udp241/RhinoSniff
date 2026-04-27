@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="RhinoSniff.Views.SettingsPerformance"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             FontFamily="{DynamicResource AppFontFamily}"
+             Background="{DynamicResource AppBg}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="18,14">
+        <StackPanel>
+            <TextBlock Text="Performance" FontSize="15" FontWeight="SemiBold"
+                       Foreground="{DynamicResource TextPrimary}" Margin="0,0,0,14" />
+
+            <!-- Max packets in memory -->
+            <Border Background="{DynamicResource CardBg}" BorderBrush="{DynamicResource CardBorder}"
+                    BorderThickness="1" CornerRadius="8" Padding="14,12" Margin="0,0,0,12">
+                <StackPanel>
+                    <Grid Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Maximum IPs in memory" FontSize="12" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimary}" />
+                            <TextBlock Text="Caps the number of unique IP rows kept in the grid. When exceeded, oldest rows are pruned first."
+                                       FontSize="10" Foreground="{DynamicResource TextMuted}"
+                                       TextWrapping="Wrap" Margin="0,4,0,0" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button x:Name="MaxPacketsMinus" Width="28" Height="28" Padding="0"
+                                    Click="MaxPacketsMinus_Click"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}">
+                                <TextBlock Text="−" FontSize="14" />
+                            </Button>
+                            <TextBox x:Name="MaxPacketsField" Width="80" Height="28" Margin="4,0"
+                                     VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                     Foreground="{DynamicResource TextPrimary}"
+                                     Background="{DynamicResource InputBg}"
+                                     BorderBrush="{DynamicResource InputBorder}"
+                                     LostFocus="MaxPacketsField_LostFocus"
+                                     KeyDown="MaxPacketsField_KeyDown" />
+                            <Button x:Name="MaxPacketsPlus" Width="28" Height="28" Padding="0"
+                                    Click="MaxPacketsPlus_Click"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}">
+                                <TextBlock Text="+" FontSize="14" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                    <Slider x:Name="MaxPacketsSlider" Minimum="500" Maximum="50000"
+                            TickFrequency="500" IsSnapToTickEnabled="True"
+                            ValueChanged="MaxPacketsSlider_ValueChanged"
+                            Margin="0,6,0,0" />
+                </StackPanel>
+            </Border>
+
+            <!-- Capture buffer size -->
+            <Border Background="{DynamicResource CardBg}" BorderBrush="{DynamicResource CardBorder}"
+                    BorderThickness="1" CornerRadius="8" Padding="14,12" Margin="0,0,0,12">
+                <StackPanel>
+                    <Grid Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Capture buffer size (KB)" FontSize="12" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimary}" />
+                            <TextBlock Text="Kernel-level pcap buffer. Larger buffers reduce drops on high-rate links; changes apply on next capture start."
+                                       FontSize="10" Foreground="{DynamicResource TextMuted}"
+                                       TextWrapping="Wrap" Margin="0,4,0,0" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button x:Name="BufferMinus" Width="28" Height="28" Padding="0"
+                                    Click="BufferMinus_Click"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}">
+                                <TextBlock Text="−" FontSize="14" />
+                            </Button>
+                            <TextBox x:Name="BufferField" Width="80" Height="28" Margin="4,0"
+                                     VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                     Foreground="{DynamicResource TextPrimary}"
+                                     Background="{DynamicResource InputBg}"
+                                     BorderBrush="{DynamicResource InputBorder}"
+                                     LostFocus="BufferField_LostFocus"
+                                     KeyDown="BufferField_KeyDown" />
+                            <Button x:Name="BufferPlus" Width="28" Height="28" Padding="0"
+                                    Click="BufferPlus_Click"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}">
+                                <TextBlock Text="+" FontSize="14" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                    <Slider x:Name="BufferSlider" Minimum="64" Maximum="16384"
+                            TickFrequency="64" IsSnapToTickEnabled="True"
+                            ValueChanged="BufferSlider_ValueChanged"
+                            Margin="0,6,0,0" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

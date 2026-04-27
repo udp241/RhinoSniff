@@ -1,0 +1,94 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Window / app surfaces -->
+    <SolidColorBrush x:Key="WindowBg" Color="#FFF5F5F7" />
+    <SolidColorBrush x:Key="AppBg" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="GridBg" Color="#FFFFFFFF" />
+
+    <!-- Sidebar -->
+    <SolidColorBrush x:Key="SidebarBg" Color="#FFF0F0F3" />
+    <SolidColorBrush x:Key="SidebarBgAlpha" Color="#99F0F0F3" />
+    <SolidColorBrush x:Key="SidebarBorder" Color="#FFD8D8DE" />
+    <SolidColorBrush x:Key="SidebarAdapterBg" Color="#FFEAEAEF" />
+    <SolidColorBrush x:Key="SidebarAdapterBgAlpha" Color="#99EAEAEF" />
+    <SolidColorBrush x:Key="SidebarSubItemBg" Color="#FFE8E8EC" />
+
+    <!-- Top title bar -->
+    <SolidColorBrush x:Key="TopBoxBg" Color="#7FEAEAEF" />
+    <SolidColorBrush x:Key="TopBoxBgAlpha" Color="#60EAEAEF" />
+
+    <!-- Stats bar -->
+    <SolidColorBrush x:Key="StatsBarBg" Color="#FFEDEDF1" />
+    <SolidColorBrush x:Key="StatsBarBgAlpha" Color="#99EDEDF1" />
+
+    <!-- Search bar -->
+    <SolidColorBrush x:Key="SearchBarBg" Color="#FFF2F2F5" />
+    <SolidColorBrush x:Key="SearchBarBgAlpha" Color="#99F2F2F5" />
+    <SolidColorBrush x:Key="SearchBoxBg" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="SearchBoxBgAlpha" Color="#99FFFFFF" />
+    <SolidColorBrush x:Key="SearchBoxBorder" Color="#FFD8D8DE" />
+
+    <!-- Grid -->
+    <SolidColorBrush x:Key="GridRowAltAlpha" Color="#80F0F0F3" />
+
+    <!-- Tab control -->
+    <SolidColorBrush x:Key="TabControlBg" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="TabInactiveBg" Color="#FFEAEAEF" />
+    <SolidColorBrush x:Key="TabInactiveBorder" Color="#FFD8D8DE" />
+    <SolidColorBrush x:Key="TabInactiveText" Color="#66101018" />
+
+    <!-- Bottom status bar -->
+    <SolidColorBrush x:Key="BottomStatusBg" Color="#FFF0F0F3" />
+    <SolidColorBrush x:Key="BottomStatusBgAlpha" Color="#99F0F0F3" />
+    <SolidColorBrush x:Key="BottomStatusBorder" Color="#1A000000" />
+
+    <!-- Dividers -->
+    <SolidColorBrush x:Key="Divider" Color="#FFD8D8DE" />
+    <SolidColorBrush x:Key="DividerSoft" Color="#1A000000" />
+
+    <!-- Text (graduated opacity on near-black) -->
+    <SolidColorBrush x:Key="TextPrimary" Color="#FF101018" />
+    <SolidColorBrush x:Key="TextSecondary" Color="#DD101018" />
+    <SolidColorBrush x:Key="TextMuted" Color="#BB101018" />
+    <SolidColorBrush x:Key="TextFaint" Color="#88101018" />
+    <SolidColorBrush x:Key="TextDim" Color="#55101018" />
+    <SolidColorBrush x:Key="TextOnAccent" Color="#FFFFFFFF" />
+
+    <!-- Sidebar item states -->
+    <SolidColorBrush x:Key="SidebarItemActive" Color="#FF00695C" />
+    <SolidColorBrush x:Key="SidebarItemInactive" Color="#DD101018" />
+    <SolidColorBrush x:Key="SidebarItemHover" Color="#1A000000" />
+    <SolidColorBrush x:Key="SidebarItemSelectedBg" Color="#1A00897B" />
+
+    <!-- Packet type pill (badge in grid) -->
+    <SolidColorBrush x:Key="PacketTypePillBg" Color="#0F000000" />
+    <SolidColorBrush x:Key="PacketTypePillBorder" Color="#22000000" />
+
+    <!-- Inputs -->
+    <SolidColorBrush x:Key="InputBg" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="InputBorder" Color="#FFD8D8DE" />
+    <SolidColorBrush x:Key="InputBorderFocus" Color="#FF00897B" />
+
+    <!-- Cards -->
+    <SolidColorBrush x:Key="CardBg" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="CardBgHover" Color="#FFF5F5F7" />
+    <SolidColorBrush x:Key="CardBorder" Color="#FFD8D8DE" />
+
+    <!-- Scrollbar -->
+    <SolidColorBrush x:Key="ScrollbarTrack" Color="#FFEAEAEF" />
+    <SolidColorBrush x:Key="ScrollbarThumb" Color="#33000000" />
+
+    <!-- Legacy side-view / overlay surfaces -->
+    <SolidColorBrush x:Key="SideViewBg" Color="#FFF5F5F7" />
+    <SolidColorBrush x:Key="SideViewHeaderBg" Color="#FFEAEAEF" />
+    <SolidColorBrush x:Key="SideViewBgAlpha" Color="#44F5F5F7" />
+    <SolidColorBrush x:Key="NotificationBg" Color="#7FEAEAEF" />
+
+    <!-- Row overlay surfaces (legacy views) -->
+    <SolidColorBrush x:Key="RowSurfaceSoft" Color="#1A000000" />
+    <SolidColorBrush x:Key="RowSurfaceStrong" Color="#FFFFFFFF" />
+
+    <!-- Toolbar Sniff/ARP idle/active states (Phase 7.1.5 — replaces hex literals) -->
+    <SolidColorBrush x:Key="ToolbarBtnIdleBg" Color="#1A000000" />
+    <SolidColorBrush x:Key="ToolbarBtnDangerBg" Color="#44B71C1C" />
+</ResourceDictionary>

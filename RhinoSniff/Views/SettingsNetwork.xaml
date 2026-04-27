@@ -1,0 +1,153 @@
+﻿<UserControl x:Class="RhinoSniff.Views.SettingsNetwork"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             FontFamily="{DynamicResource AppFontFamily}"
+             Background="{DynamicResource AppBg}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="18,14">
+        <StackPanel>
+            <!-- Header -->
+            <Grid Margin="0,0,0,14">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Network"
+                           FontSize="15" FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextPrimary}"
+                           VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Text="Select the network interface to monitor"
+                           FontSize="11"
+                           Foreground="{DynamicResource TextMuted}"
+                           VerticalAlignment="Center" />
+            </Grid>
+
+            <!-- Adapter card -->
+            <Border Background="{DynamicResource CardBg}" BorderBrush="{DynamicResource CardBorder}"
+                    BorderThickness="1" CornerRadius="8" Padding="14,12" Margin="0,0,0,12">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <!-- Icon tile -->
+                    <Border Grid.Column="0" Background="{DynamicResource AccentTealDark}"
+                            CornerRadius="8" Width="40" Height="40">
+                        <materialDesign:PackIcon Kind="Wifi" Width="22" Height="22"
+                                                 Foreground="{DynamicResource TextOnAccent}"
+                                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <!-- Name + UP pill -->
+                    <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                        <TextBlock x:Name="AdapterNameText" Text="—" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" />
+                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                            <Border x:Name="UpPill" Background="{DynamicResource PillCapturingBg}"
+                                    CornerRadius="10" Padding="8,2">
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse Width="6" Height="6" Fill="{DynamicResource PillCapturingText}"
+                                             Margin="0,0,4,0" VerticalAlignment="Center" />
+                                    <TextBlock x:Name="UpPillText" Text="UP" FontSize="9" FontWeight="Bold"
+                                               Foreground="{DynamicResource PillCapturingText}"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                    <!-- IP badge -->
+                    <Border Grid.Column="2" Background="{DynamicResource InputBg}"
+                            BorderBrush="{DynamicResource InputBorder}" BorderThickness="1"
+                            CornerRadius="4" Padding="8,4" VerticalAlignment="Center">
+                        <TextBlock x:Name="AdapterIpText" Text="—"
+                                   FontFamily="pack://application:,,,/RhinoSniff;Component/Resources/Fonts/#Cascadia Mono"
+                                   FontSize="11" Foreground="{DynamicResource TextPrimary}" />
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Toggle: Auto-detect interfaces -->
+            <Border Background="{DynamicResource CardBg}" BorderBrush="{DynamicResource CardBorder}"
+                    BorderThickness="1" CornerRadius="8" Padding="14,10" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Auto-detect interfaces" FontSize="12" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" />
+                        <TextBlock Text="Automatically detect new network interfaces when they become available"
+                                   FontSize="10" Foreground="{DynamicResource TextMuted}" Margin="0,4,0,0" />
+                    </StackPanel>
+                    <ToggleButton x:Name="AutoDetectToggle" Grid.Column="1" VerticalAlignment="Center"
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  Click="AutoDetectToggle_Click" />
+                </Grid>
+            </Border>
+
+            <!-- Toggle: Show inactive interfaces -->
+            <Border Background="{DynamicResource CardBg}" BorderBrush="{DynamicResource CardBorder}"
+                    BorderThickness="1" CornerRadius="8" Padding="14,10" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Show inactive interfaces" FontSize="12" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" />
+                        <TextBlock Text="Display interfaces that are currently down or disconnected"
+                                   FontSize="10" Foreground="{DynamicResource TextMuted}" Margin="0,4,0,0" />
+                    </StackPanel>
+                    <ToggleButton x:Name="ShowInactiveToggle" Grid.Column="1" VerticalAlignment="Center"
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  Click="ShowInactiveToggle_Click" />
+                </Grid>
+            </Border>
+
+            <!-- Toggle: Network Inspect Mode -->
+            <Border Background="{DynamicResource CardBg}" BorderBrush="{DynamicResource CardBorder}"
+                    BorderThickness="1" CornerRadius="8" Padding="14,10" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Network Inspect Mode" FontSize="12" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" />
+                        <TextBlock Text="Store recent TCP/UDP payloads per IP for flow inspection (uses extra memory)"
+                                   FontSize="10" Foreground="{DynamicResource TextMuted}" Margin="0,4,0,0" />
+                    </StackPanel>
+                    <ToggleButton x:Name="InspectModeToggle" Grid.Column="1" VerticalAlignment="Center"
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  Click="InspectModeToggle_Click" />
+                </Grid>
+            </Border>
+
+            <!-- Toggle: Disable Remote Network Warning -->
+            <Border Background="{DynamicResource CardBg}" BorderBrush="{DynamicResource CardBorder}"
+                    BorderThickness="1" CornerRadius="8" Padding="14,10" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Disable Remote Network Warning" FontSize="12" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}" />
+                        <TextBlock Text="Skip the warning modal when targeting public (remote) IPs in Packet Tester"
+                                   FontSize="10" Foreground="{DynamicResource TextMuted}" Margin="0,4,0,0" />
+                    </StackPanel>
+                    <ToggleButton x:Name="DisableRemoteWarnToggle" Grid.Column="1" VerticalAlignment="Center"
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  Click="DisableRemoteWarnToggle_Click" />
+                </Grid>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

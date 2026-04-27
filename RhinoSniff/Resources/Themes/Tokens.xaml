@@ -1,0 +1,75 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Brand / accent (theme-agnostic) -->
+    <SolidColorBrush x:Key="AccentTeal" Color="#FF00BFA5" />
+    <SolidColorBrush x:Key="AccentTealDark" Color="#FF00897B" />
+    <SolidColorBrush x:Key="AccentBlue" Color="#FF2563EB" />
+    <SolidColorBrush x:Key="AccentBlueHover" Color="#FF1D4ED8" />
+
+    <!-- Status / semantic -->
+    <SolidColorBrush x:Key="StatusSuccess" Color="#FF22C55E" />
+    <SolidColorBrush x:Key="StatusDanger" Color="#FFDC2626" />
+    <SolidColorBrush x:Key="StatusWarning" Color="#FFEAB308" />
+    <SolidColorBrush x:Key="StatusInfo" Color="#FF42A5F5" />
+
+    <!-- Phase 9 Filter wizard / dialog tints (theme-agnostic, alpha-based) -->
+    <!-- Highlight and Discard tints are 15%-alpha versions of StatusSuccess / StatusDanger,
+         used as card icon backgrounds in FilterActionDialog and CreateFilterWizard Step 2. -->
+    <SolidColorBrush x:Key="HighlightTint" Color="#2622C55E" />
+    <SolidColorBrush x:Key="DiscardTint" Color="#26DC2626" />
+    <!-- Local / Cloud source-chooser accents — Local = purple (reuses ActionReorder hue),
+         Cloud = green (reuses StatusSuccess hue). Tints are 15%-alpha versions. -->
+    <SolidColorBrush x:Key="FilterLocalAccent" Color="#FFA855F7" />
+    <SolidColorBrush x:Key="FilterLocalTint" Color="#26A855F7" />
+    <SolidColorBrush x:Key="FilterCloudAccent" Color="#FF10B981" />
+    <SolidColorBrush x:Key="FilterCloudTint" Color="#2610B981" />
+
+    <!-- Pills -->
+    <SolidColorBrush x:Key="PillCapturingBg" Color="#1A22C55E" />
+    <SolidColorBrush x:Key="PillCapturingText" Color="#FF22C55E" />
+    <SolidColorBrush x:Key="PillStoppedBg" Color="#1A9CA3AF" />
+    <SolidColorBrush x:Key="PillStoppedText" Color="#FF9CA3AF" />
+    <SolidColorBrush x:Key="PillUpBg" Color="#1A22C55E" />
+    <SolidColorBrush x:Key="PillUpText" Color="#FF22C55E" />
+    <SolidColorBrush x:Key="PillLockedBg" Color="#1AEAB308" />
+    <SolidColorBrush x:Key="PillLockedText" Color="#FFEAB308" />
+
+    <!-- Platform tag colors (used later in Phase 3 filter cards) -->
+    <SolidColorBrush x:Key="PlatformXbox" Color="#FF16A34A" />
+    <SolidColorBrush x:Key="PlatformPC" Color="#FF9333EA" />
+    <SolidColorBrush x:Key="PlatformPSN" Color="#FF2563EB" />
+    <SolidColorBrush x:Key="PlatformAndroid" Color="#FF22C55E" />
+    <SolidColorBrush x:Key="PlatformIOS" Color="#FF4B5563" />
+    <SolidColorBrush x:Key="PlatformMobile" Color="#FFF97316" />
+    <SolidColorBrush x:Key="PlatformServer" Color="#FF0EA5E9" />
+    <SolidColorBrush x:Key="PlatformUniversal" Color="#FF6B7280" />
+
+    <!-- Traffic Control action tags (Phase 8) -->
+    <!-- TC action palette: Drop=red, Lag=yellow, Throttle=orange, Reorder=purple, Duplicate=blue -->
+    <SolidColorBrush x:Key="ActionLag" Color="#FFEAB308" />
+    <SolidColorBrush x:Key="ActionDrop" Color="#FFDC2626" />
+    <SolidColorBrush x:Key="ActionThrottle" Color="#FFF97316" />
+    <SolidColorBrush x:Key="ActionReorder" Color="#FFA855F7" />
+    <SolidColorBrush x:Key="ActionDuplicate" Color="#FF3B82F6" />
+
+    <!-- Protocol chips -->
+    <SolidColorBrush x:Key="ProtoTcpBg" Color="#1A42A5F5" />
+    <SolidColorBrush x:Key="ProtoTcpText" Color="#FF42A5F5" />
+    <SolidColorBrush x:Key="ProtoUdpBg" Color="#1A66BB6A" />
+    <SolidColorBrush x:Key="ProtoUdpText" Color="#FF66BB6A" />
+    <SolidColorBrush x:Key="ProtoBothBg" Color="#1A00BFA5" />
+    <SolidColorBrush x:Key="ProtoBothText" Color="#FF00BFA5" />
+
+    <!-- Data In / Data Out (Phase 2 rename of Up/Down) -->
+    <SolidColorBrush x:Key="DataInText" Color="#FF66BB6A" />
+    <SolidColorBrush x:Key="DataInBg" Color="#1A66BB6A" />
+    <SolidColorBrush x:Key="DataOutText" Color="#FF42A5F5" />
+    <SolidColorBrush x:Key="DataOutBg" Color="#1A42A5F5" />
+
+    <!-- Misc semantic -->
+    <SolidColorBrush x:Key="LabelText" Color="#CC00897B" />
+    <SolidColorBrush x:Key="DimmerOverlay" Color="#83000000" />
+
+    <!-- v2.9.2 user-pickable app font. ThemeManager.ApplyFont swaps this at runtime. -->
+    <FontFamily x:Key="AppFontFamily">pack://application:,,,/RhinoSniff;Component/Resources/Fonts/#Gotham</FontFamily>
+</ResourceDictionary>

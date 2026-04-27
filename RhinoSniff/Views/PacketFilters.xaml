@@ -1,0 +1,281 @@
+﻿<UserControl x:Class="RhinoSniff.Views.PacketFilters"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             FontFamily="{DynamicResource AppFontFamily}"
+             Background="{DynamicResource AppBg}">
+    <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Content Header -->
+            <Border Grid.Row="0" Background="{DynamicResource AppBg}" Padding="14,10"
+                    BorderBrush="{DynamicResource Divider}" BorderThickness="0,0,0,1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Packet Filters"
+                               FontSize="15" FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimary}"
+                               VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="1" x:Name="ActiveCountText" Text="0 active"
+                               FontSize="12" FontWeight="SemiBold"
+                               Foreground="{DynamicResource StatusSuccess}"
+                               Margin="12,0,0,0"
+                               VerticalAlignment="Center" />
+                    <TextBlock Grid.Column="2" x:Name="FilterBreakdownText" Text="(0 custom + 0 community)"
+                               FontSize="11"
+                               Foreground="{DynamicResource TextMuted}"
+                               Margin="6,0,0,0"
+                               VerticalAlignment="Center" />
+                </Grid>
+            </Border>
+
+            <!-- Tab row: Active / My Filters / Community Filters -->
+            <Border Grid.Row="1" Background="{DynamicResource AppBg}" Padding="14,8"
+                    BorderBrush="{DynamicResource Divider}" BorderThickness="0,0,0,1">
+                <StackPanel Orientation="Horizontal">
+                    <ToggleButton x:Name="ActiveTab" IsChecked="True" Click="TabClick"
+                                  Margin="0,0,6,0" Style="{StaticResource RhinoPillToggle}">
+                        <TextBlock x:Name="ActiveTabText" Text="Active (0)" />
+                    </ToggleButton>
+                    <ToggleButton x:Name="MyFiltersTab" Click="TabClick"
+                                  Margin="0,0,6,0" Style="{StaticResource RhinoPillToggle}">
+                        <TextBlock x:Name="MyFiltersTabText" Text="My Filters (0)" />
+                    </ToggleButton>
+                    <ToggleButton x:Name="CommunityTab" Click="TabClick"
+                                  Style="{StaticResource RhinoPillToggle}">
+                        <TextBlock x:Name="CommunityTabText" Text="Community Filters (0)" />
+                    </ToggleButton>
+                </StackPanel>
+            </Border>
+
+            <!-- Scrollable body -->
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                          Padding="14,12,14,20">
+                <StackPanel>
+                    <!-- Empty state for Active tab -->
+                    <Border x:Name="EmptyActiveCard" Visibility="Collapsed"
+                            Background="Transparent" Padding="24" Margin="0,40,0,14">
+                        <TextBlock Text="No active filters. Enable filters from My Filters or Community tabs."
+                                   HorizontalAlignment="Center"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextMuted}" />
+                    </Border>
+
+                    <ItemsControl x:Name="CardsHost">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+
+                    <!-- Side-by-side: Port Blacklist + Packet Types -->
+                    <Grid Margin="0,18,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="12" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Port blacklist card -->
+                        <Border Grid.Column="0" Background="{DynamicResource CardBg}"
+                                BorderBrush="{DynamicResource CardBorder}" BorderThickness="1"
+                                CornerRadius="8" Padding="14">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="DoorClosed" Width="18" Height="18"
+                                                             Foreground="{DynamicResource AccentTeal}"
+                                                             VerticalAlignment="Center" Margin="0,0,8,0" />
+                                    <TextBlock Text="Port Blacklist" FontSize="13" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <TextBlock Margin="0,4,0,10" FontSize="11"
+                                           Foreground="{DynamicResource TextMuted}"
+                                           TextWrapping="Wrap"
+                                           Text="Destination ports to block (80, 443, 53). Invert to whitelist mode." />
+                                <Grid Margin="0,0,0,6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="PortInput" Grid.Column="0"
+                                             Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                                             materialDesign:HintAssist.Hint="Port (e.g. 443)"
+                                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                             KeyDown="PortInput_KeyDown" />
+                                    <Button Grid.Column="1" Height="30" Margin="8,10,0,0" Padding="12,0"
+                                            materialDesign:ButtonAssist.CornerRadius="4"
+                                            Click="AddPort_Click" Cursor="Hand"
+                                            Background="{DynamicResource AccentTealDark}"
+                                            Foreground="{DynamicResource TextOnAccent}"
+                                            Style="{StaticResource MaterialDesignFlatButton}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Plus" Width="14" Height="14" VerticalAlignment="Center" />
+                                            <TextBlock Text="Add" Margin="4,0,0,0" FontSize="11" />
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                                <ListBox x:Name="PortListBox" MaxHeight="140"
+                                         Background="{DynamicResource InputBg}"
+                                         BorderBrush="{DynamicResource InputBorder}" BorderThickness="1">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Padding" Value="8,4" />
+                                            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Click="DeletePortItem_Click" Header="Remove port">
+                                                <MenuItem.Icon>
+                                                    <materialDesign:PackIcon Kind="TrashOutline" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem Click="CopyPortItem_Click" Header="Copy port">
+                                                <MenuItem.Icon>
+                                                    <materialDesign:PackIcon Kind="ClipboardOutline" />
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </ListBox.ContextMenu>
+                                </ListBox>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <ToggleButton x:Name="InvertPortFilterToggle"
+                                                  Cursor="Hand"
+                                                  Style="{DynamicResource MaterialDesignSwitchToggleButton}" />
+                                    <TextBlock Margin="10,0,0,0" VerticalAlignment="Center"
+                                               FontSize="11" Foreground="{DynamicResource TextSecondary}"
+                                               Text="Invert filter (whitelist mode)" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Packet types + misc card -->
+                        <Border Grid.Column="2" Background="{DynamicResource CardBg}"
+                                BorderBrush="{DynamicResource CardBorder}" BorderThickness="1"
+                                CornerRadius="8" Padding="14">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="TuneVariant" Width="18" Height="18"
+                                                             Foreground="{DynamicResource AccentTeal}"
+                                                             VerticalAlignment="Center" Margin="0,0,8,0" />
+                                    <TextBlock Text="Packet Types &amp; Misc" FontSize="13" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <TextBlock Margin="0,4,0,10" FontSize="11"
+                                           Foreground="{DynamicResource TextMuted}"
+                                           TextWrapping="Wrap"
+                                           Text="Which IP protocols to capture, plus misc display options." />
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,4">
+                                    <CheckBox x:Name="ShowUdpToggle" IsChecked="True" Cursor="Hand"
+                                              Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                                              Content="Show UDP Packets" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,12">
+                                    <CheckBox x:Name="ShowTcpToggle" IsChecked="True" Cursor="Hand"
+                                              Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                                              Content="Show TCP Packets" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,6">
+                                    <ToggleButton x:Name="OtherInfoToggle" Cursor="Hand"
+                                                  Style="{DynamicResource MaterialDesignSwitchToggleButton}" />
+                                    <TextBlock Margin="10,0,0,0" VerticalAlignment="Center"
+                                               FontSize="11" Foreground="{DynamicResource TextSecondary}"
+                                               Text="Show All Traffic tab" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                    <ToggleButton x:Name="AutoRemoveInactiveToggle" Cursor="Hand"
+                                                  Style="{DynamicResource MaterialDesignSwitchToggleButton}" />
+                                    <TextBlock Margin="10,0,0,0" VerticalAlignment="Center"
+                                               FontSize="11" Foreground="{DynamicResource TextSecondary}"
+                                               Text="Auto-remove inactive IPs" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- Custom port-range filters -->
+                    <Border Margin="0,14,0,0" Background="{DynamicResource CardBg}"
+                            BorderBrush="{DynamicResource CardBorder}" BorderThickness="1"
+                            CornerRadius="8" Padding="14">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="CodeBraces" Width="18" Height="18"
+                                                         Foreground="{DynamicResource AccentTeal}"
+                                                         VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <TextBlock Text="Custom Port Ranges" FontSize="13" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <TextBlock Margin="0,4,0,10" FontSize="11"
+                                       Foreground="{DynamicResource TextMuted}" TextWrapping="Wrap"
+                                       Text="Define your own UDP port-range rules. Enable the &quot;Custom Ranges&quot; card above to use them." />
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="10" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="CustomNameBox" Grid.Column="0"
+                                         Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                                         materialDesign:HintAssist.Hint="Filter name (e.g. My Game)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                                <TextBox x:Name="CustomMinPortBox" Grid.Column="2"
+                                         Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                                         materialDesign:HintAssist.Hint="Min port"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                                <TextBox x:Name="CustomMaxPortBox" Grid.Column="4"
+                                         Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                                         materialDesign:HintAssist.Hint="Max port"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                                <Button Grid.Column="5" Height="30" Margin="8,10,0,0" Padding="12,0"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
+                                        Click="AddCustomFilter_Click" Cursor="Hand"
+                                        Background="{DynamicResource AccentTealDark}"
+                                        Foreground="{DynamicResource TextOnAccent}"
+                                        Style="{StaticResource MaterialDesignFlatButton}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Plus" Width="14" Height="14" VerticalAlignment="Center" />
+                                        <TextBlock Text="Add Range" Margin="4,0,0,0" FontSize="11" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                            <ListBox x:Name="CustomFilterListBox" MaxHeight="120"
+                                     Background="{DynamicResource InputBg}"
+                                     BorderBrush="{DynamicResource InputBorder}" BorderThickness="1">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="8,4" />
+                                        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Click="DeleteCustomFilter_Click" Header="Delete range">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="TrashOutline" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
+                            </ListBox>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+    </Grid>
+</UserControl>

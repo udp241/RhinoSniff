@@ -1,0 +1,268 @@
+﻿<UserControl x:Class="RhinoSniff.Views.Hotspot"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             FontFamily="{DynamicResource AppFontFamily}"
+             Background="{DynamicResource AppBg}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{DynamicResource AppBg}" Padding="14,10"
+                BorderBrush="{DynamicResource Divider}" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Hotspot" FontSize="15" FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" />
+                <Border Grid.Column="1" x:Name="StatePill" Background="{DynamicResource PillStoppedBg}"
+                        CornerRadius="10" Padding="8,2" Margin="10,0,0,0" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse x:Name="StateDot" Width="6" Height="6" Margin="0,0,5,0" VerticalAlignment="Center"
+                                 Fill="{DynamicResource StatusDanger}" />
+                        <TextBlock x:Name="StateText" Text="OFF" FontSize="9" FontWeight="Bold"
+                                   Foreground="{DynamicResource PillStoppedText}" />
+                    </StackPanel>
+                </Border>
+                <Button Grid.Column="3" Height="28" Padding="10,0"
+                        materialDesign:ButtonAssist.CornerRadius="4"
+                        Click="SetupGuide_Click" Cursor="Hand"
+                        Background="{DynamicResource SidebarItemHover}"
+                        Foreground="{DynamicResource TextPrimary}"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="BookOpenPageVariant" Width="13" Height="13" VerticalAlignment="Center" />
+                        <TextBlock Text="Setup Guide" Margin="4,0,0,0" FontSize="11" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="14,14,14,20">
+            <StackPanel>
+                <!-- Support warning banner -->
+                <Border x:Name="UnsupportedBanner" Visibility="Collapsed" Margin="0,0,0,12"
+                        Background="{DynamicResource InputBg}"
+                        BorderBrush="{DynamicResource StatusWarning}" BorderThickness="1"
+                        CornerRadius="6" Padding="12,10">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="AlertOutline" Width="18" Height="18" VerticalAlignment="Center"
+                                                 Foreground="{DynamicResource StatusWarning}" Margin="0,0,10,0" />
+                        <TextBlock x:Name="UnsupportedText" VerticalAlignment="Center" FontSize="11" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource TextPrimary}" MaxWidth="900" />
+                    </StackPanel>
+                </Border>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="14" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left: Hotspot card -->
+                    <Border Grid.Column="0" Background="{DynamicResource CardBg}"
+                            BorderBrush="{DynamicResource CardBorder}" BorderThickness="1"
+                            CornerRadius="8" Padding="16">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <materialDesign:PackIcon Kind="AccessPoint" Width="18" Height="18"
+                                                         Foreground="{DynamicResource AccentTeal}"
+                                                         VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <TextBlock Text="Mobile Hotspot" FontSize="13" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <TextBlock Margin="0,0,0,12" FontSize="11"
+                                       Foreground="{DynamicResource TextMuted}" TextWrapping="Wrap"
+                                       Text="Shares your current internet connection over Wi-Fi via Windows' built-in Mobile Hotspot." />
+
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="SSID" FontSize="10" FontWeight="Bold"
+                                               Foreground="{DynamicResource TextSecondary}" />
+                                    <TextBlock x:Name="CurrentSsidText" Text="—" FontSize="13"
+                                               FontFamily="Consolas"
+                                               Foreground="{DynamicResource TextPrimary}" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="CLIENTS" FontSize="10" FontWeight="Bold"
+                                               Foreground="{DynamicResource TextSecondary}" />
+                                    <TextBlock x:Name="ClientCountText" Text="0" FontSize="13"
+                                               FontFamily="Consolas"
+                                               Foreground="{DynamicResource TextPrimary}" />
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBox x:Name="SsidInput" Margin="0,4,0,4"
+                                     Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                                     materialDesign:HintAssist.Hint="Hotspot name (SSID)"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <PasswordBox x:Name="PassInput" Grid.Column="0"
+                                             Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                                             materialDesign:HintAssist.Hint="Password (WPA2, 8+ chars)"
+                                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+                                <TextBox x:Name="PassInputVisible" Grid.Column="0" Visibility="Collapsed"
+                                         Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                                         materialDesign:HintAssist.Hint="Password (WPA2, 8+ chars)"
+                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                                <Button Grid.Column="1" Height="28" Width="28" Padding="0" Margin="6,10,0,0"
+                                        materialDesign:ButtonAssist.CornerRadius="3"
+                                        Click="TogglePassVisibility_Click" Cursor="Hand"
+                                        Background="Transparent"
+                                        Foreground="{DynamicResource TextSecondary}"
+                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                        ToolTip="Show / hide password">
+                                    <materialDesign:PackIcon x:Name="PassEyeIcon" Kind="EyeOutline" Width="14" Height="14" />
+                                </Button>
+                            </Grid>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                                <Button Height="30" Padding="14,0" Margin="0,0,8,0"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
+                                        Click="SaveHotspot_Click" Cursor="Hand"
+                                        Background="{DynamicResource SidebarItemHover}"
+                                        Foreground="{DynamicResource TextPrimary}"
+                                        Style="{StaticResource MaterialDesignFlatButton}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ContentSaveOutline" Width="13" Height="13" VerticalAlignment="Center" />
+                                        <TextBlock Text="Save" Margin="4,0,0,0" FontSize="11" />
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="HotspotToggleBtn" Height="30" Padding="14,0"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
+                                        Click="ToggleHotspot_Click" Cursor="Hand"
+                                        Background="{DynamicResource AccentTealDark}"
+                                        Foreground="{DynamicResource TextOnAccent}"
+                                        Style="{StaticResource MaterialDesignFlatButton}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon x:Name="HotspotToggleIcon" Kind="Play" Width="13" Height="13" VerticalAlignment="Center" />
+                                        <TextBlock x:Name="HotspotToggleText" Text="Start Hotspot" Margin="4,0,0,0" FontSize="11" FontWeight="SemiBold" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Right: ICS / Bridge card -->
+                    <Border Grid.Column="2" Background="{DynamicResource CardBg}"
+                            BorderBrush="{DynamicResource CardBorder}" BorderThickness="1"
+                            CornerRadius="8" Padding="16">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                <materialDesign:PackIcon Kind="LanConnect" Width="18" Height="18"
+                                                         Foreground="{DynamicResource AccentTeal}"
+                                                         VerticalAlignment="Center" Margin="0,0,8,0" />
+                                <TextBlock Text="Internet Sharing (ICS)" FontSize="13" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <TextBlock Margin="0,0,0,12" FontSize="11"
+                                       Foreground="{DynamicResource TextMuted}" TextWrapping="Wrap"
+                                       Text="Share one adapter's internet with another. Good for routing a console or second PC through this machine." />
+
+                            <TextBlock Text="PUBLIC (internet source)" FontSize="10" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextSecondary}" Margin="0,0,0,4" />
+                            <ComboBox x:Name="PublicAdapterCombo" Margin="0,0,0,10"
+                                      Foreground="{DynamicResource TextPrimary}"
+                                      Style="{StaticResource MaterialDesignComboBox}"
+                                      DisplayMemberPath="Name" />
+
+                            <TextBlock Text="PRIVATE (client)" FontSize="10" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextSecondary}" Margin="0,0,0,4" />
+                            <ComboBox x:Name="PrivateAdapterCombo" Margin="0,0,0,10"
+                                      Foreground="{DynamicResource TextPrimary}"
+                                      Style="{StaticResource MaterialDesignComboBox}"
+                                      DisplayMemberPath="Name" />
+
+                            <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                <Button Height="30" Padding="14,0" Margin="0,0,8,0"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
+                                        Click="EnableIcs_Click" Cursor="Hand"
+                                        Background="{DynamicResource AccentTealDark}"
+                                        Foreground="{DynamicResource TextOnAccent}"
+                                        Style="{StaticResource MaterialDesignFlatButton}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ShareVariant" Width="13" Height="13" VerticalAlignment="Center" />
+                                        <TextBlock Text="Enable Sharing" Margin="4,0,0,0" FontSize="11" FontWeight="SemiBold" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Height="30" Padding="14,0" Margin="0,0,8,0"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
+                                        Click="DisableIcs_Click" Cursor="Hand"
+                                        Background="{DynamicResource SidebarItemHover}"
+                                        Foreground="{DynamicResource StatusDanger}"
+                                        Style="{StaticResource MaterialDesignFlatButton}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="CloseCircleOutline" Width="13" Height="13" VerticalAlignment="Center" />
+                                        <TextBlock Text="Disable All" Margin="4,0,0,0" FontSize="11" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Height="30" Padding="10,0"
+                                        materialDesign:ButtonAssist.CornerRadius="4"
+                                        Click="RefreshIcs_Click" Cursor="Hand"
+                                        Background="Transparent"
+                                        Foreground="{DynamicResource TextSecondary}"
+                                        Style="{StaticResource MaterialDesignFlatButton}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Refresh" Width="13" Height="13" VerticalAlignment="Center" />
+                                        <TextBlock Text="Refresh" Margin="4,0,0,0" FontSize="11" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Adapter status table -->
+                <Border Margin="0,14,0,0" Background="{DynamicResource CardBg}"
+                        BorderBrush="{DynamicResource CardBorder}" BorderThickness="1"
+                        CornerRadius="8" Padding="16">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <materialDesign:PackIcon Kind="FormatListBulletedType" Width="18" Height="18"
+                                                     Foreground="{DynamicResource AccentTeal}"
+                                                     VerticalAlignment="Center" Margin="0,0,8,0" />
+                            <TextBlock Text="Adapters" FontSize="13" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimary}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <DataGrid x:Name="AdaptersGrid" AutoGenerateColumns="False"
+                                  HeadersVisibility="Column" CanUserAddRows="False"
+                                  IsReadOnly="True" Background="Transparent" BorderThickness="0"
+                                  RowBackground="{DynamicResource GridRowBg}"
+                                  AlternatingRowBackground="{DynamicResource GridRowAlt}"
+                                  Foreground="{DynamicResource TextPrimary}"
+                                  GridLinesVisibility="Horizontal"
+                                  HorizontalGridLinesBrush="{DynamicResource GridBorder}"
+                                  MaxHeight="260">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="NAME" Binding="{Binding Name}" Width="*" />
+                                <DataGridTextColumn Header="DEVICE" Binding="{Binding Description}" Width="*" />
+                                <DataGridTextColumn Header="ROLE" Binding="{Binding RoleDisplay}" Width="100" />
+                                <DataGridTextColumn Header="STATUS" Binding="{Binding StatusDisplay}" Width="100" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,194 @@
+﻿<Page x:Class="RhinoSniff.Views.Arp"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="ARP Setup"
+      d:DesignHeight="500"
+      d:DesignWidth="296"
+      mc:Ignorable="d">
+
+    <ScrollViewer MaxWidth="296"
+                  HorizontalContentAlignment="Left"
+                  VerticalContentAlignment="Top"
+                  HorizontalScrollBarVisibility="Hidden"
+                  VerticalScrollBarVisibility="Auto">
+    <Grid Background="{DynamicResource SearchBarBg}" MaxWidth="296">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Step 1: Gateway -->
+        <StackPanel x:Name="Step1Panel" Grid.Row="0" Grid.RowSpan="3" Margin="12,8,12,8">
+            <TextBlock Text="STEP 1: ROUTER / GATEWAY"
+                       FontSize="11" FontWeight="SemiBold"
+                       Foreground="{DynamicResource AccentTeal}" Margin="0,0,0,10" />
+            <TextBlock Text="Your default gateway was auto-detected. Confirm this is your router."
+                       FontSize="11" Foreground="{DynamicResource TextMuted}" TextWrapping="Wrap" Margin="0,0,0,12" />
+            <Border Background="{DynamicResource RowSurfaceSoft}" CornerRadius="4" Padding="10,8" Margin="0,0,0,8">
+                <StackPanel>
+                    <TextBlock Text="Gateway IP" FontSize="10" Foreground="{DynamicResource TextFaint}" />
+                    <TextBlock x:Name="GatewayIpText" Text="Detecting..."
+                               FontSize="14" Foreground="{DynamicResource TextPrimary}" FontFamily="Consolas" />
+                </StackPanel>
+            </Border>
+            <Border Background="{DynamicResource RowSurfaceSoft}" CornerRadius="4" Padding="10,8" Margin="0,0,0,8">
+                <StackPanel>
+                    <TextBlock Text="Gateway MAC" FontSize="10" Foreground="{DynamicResource TextFaint}" />
+                    <TextBlock x:Name="GatewayMacText" Text="Detecting..."
+                               FontSize="14" Foreground="{DynamicResource TextPrimary}" FontFamily="Consolas" />
+                </StackPanel>
+            </Border>
+            <TextBlock Text="Not right? Enter manually:" FontSize="10" Foreground="{DynamicResource TextFaint}" Margin="0,4,0,4" />
+            <TextBox x:Name="ManualGatewayBox"
+                     materialDesign:HintAssist.Hint="Override gateway IP"
+                     Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Margin="0,0,0,12" />
+            <Button x:Name="NextToStep2Btn" Height="36" HorizontalAlignment="Stretch"
+                    Click="NextToStep2_Click"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Background="{DynamicResource AccentTealDark}" Foreground="White" Cursor="Arrow">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="NEXT" VerticalAlignment="Center" />
+                    <materialDesign:PackIcon Kind="Play" Margin="6,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <!-- Step 2: Scan + Pick Device -->
+        <StackPanel x:Name="Step2Panel" Grid.Row="0" Margin="12,8,12,0" Visibility="Collapsed">
+            <Button x:Name="BackToStep1Btn" Click="BackToStep1_Click"
+                    HorizontalAlignment="Left" Padding="0" Height="24"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Foreground="{DynamicResource TextFaint}" Cursor="Arrow">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="ArrowUp" Width="14" Height="14" />
+                    <TextBlock Text="Back" FontSize="11" Margin="4,0,0,0" />
+                </StackPanel>
+            </Button>
+            <TextBlock Text="STEP 2: SELECT CLIENT DEVICE"
+                       FontSize="11" FontWeight="SemiBold"
+                       Foreground="{DynamicResource AccentTeal}" Margin="0,4,0,6" />
+            <TextBlock Text="Select the device you want to intercept traffic from."
+                       FontSize="11" Foreground="{DynamicResource TextMuted}" TextWrapping="Wrap" Margin="0,0,0,8" />
+            <Border Background="{DynamicResource RowSurfaceSoft}" CornerRadius="4" Padding="8,6" Margin="0,0,0,8">
+                <TextBlock FontSize="10" Foreground="{DynamicResource TextFaint}">
+                    <Run Text="Router: " />
+                    <Run x:Name="ConfirmedGatewayText" Text="..." Foreground="{DynamicResource AccentTeal}" />
+                </TextBlock>
+            </Border>
+            <Button x:Name="ScanBtn" Click="Scan_Click"
+                    Height="32" HorizontalAlignment="Stretch"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Background="{DynamicResource RowSurfaceSoft}" Foreground="{DynamicResource TextPrimary}"
+                    Cursor="Arrow" Margin="0,0,0,6">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon x:Name="ScanIcon" Kind="Magnify" VerticalAlignment="Center" />
+                    <TextBlock x:Name="ScanBtnText" Text="SCAN NETWORK" Margin="6,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            
+            <!-- Manual add if scan doesn't find device -->
+            <TextBlock Text="Device not found? Add manually:" FontSize="10" Foreground="{DynamicResource TextFaint}" Margin="0,2,0,4" />
+            <DockPanel Margin="0,0,0,4">
+                <Button x:Name="ManualAddBtn" Click="ManualAdd_Click"
+                        DockPanel.Dock="Right" Width="50" Height="28"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Background="{DynamicResource RowSurfaceSoft}" Foreground="{DynamicResource TextPrimary}"
+                        Cursor="Arrow" Margin="6,0,0,0" Padding="0">
+                    <TextBlock x:Name="ManualAddText" Text="ADD" FontSize="10" />
+                </Button>
+                <TextBox x:Name="ManualClientBox"
+                         materialDesign:HintAssist.Hint="IP Address"
+                         Foreground="{DynamicResource TextPrimary}" FontSize="11"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         VerticalAlignment="Center" />
+            </DockPanel>
+        </StackPanel>
+
+        <!-- Device List -->
+        <DataGrid x:Name="DeviceList" Grid.Row="1" Margin="12,0,12,0"
+                  Visibility="Collapsed"
+                  AutoGenerateColumns="False" Background="{x:Null}"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  CanUserReorderColumns="False" CanUserResizeRows="False"
+                  HorizontalGridLinesBrush="{DynamicResource DividerSoft}" VerticalGridLinesBrush="Transparent"
+                  SelectionMode="Single" SelectionUnit="FullRow"
+                  HeadersVisibility="Column" RowHeight="28" ColumnHeaderHeight="28"
+                  BorderThickness="0" GridLinesVisibility="Horizontal"
+                  IsReadOnly="True">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                    <Setter Property="FontSize" Value="10" />
+                    <Setter Property="Foreground" Value="{DynamicResource TextMuted}" />
+                    <Setter Property="Background" Value="{DynamicResource RowSurfaceStrong}" />
+                    <Setter Property="Padding" Value="6,0" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="IP" Binding="{Binding IpAddress}" Width="110">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontFamily" Value="Consolas" />
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+                            <Setter Property="Padding" Value="6,0" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="MAC" Binding="{Binding MacAddress}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontFamily" Value="Consolas" />
+                            <Setter Property="FontSize" Value="11" />
+                            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+                            <Setter Property="Padding" Value="6,0" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Bottom Controls -->
+        <StackPanel x:Name="BottomControls" Grid.Row="2" Margin="12,8,12,12" Visibility="Collapsed">
+            <DockPanel Margin="0,0,0,8">
+                <ToggleButton x:Name="NullRouteToggle" DockPanel.Dock="Right" Margin="8,0,0,0"
+                              Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Null-route" FontSize="12" Foreground="{DynamicResource TextPrimary}" />
+                    <TextBlock Text="Kill target's internet entirely" FontSize="10" Foreground="{DynamicResource TextFaint}" />
+                </StackPanel>
+            </DockPanel>
+            <Button x:Name="SaveArpBtn" Click="SaveArp_Click"
+                    Height="36" HorizontalAlignment="Stretch"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Background="{DynamicResource AccentTealDark}" Foreground="White"
+                    Cursor="Arrow" Margin="0,0,0,6">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="FileDownloadOutline" VerticalAlignment="Center" />
+                    <TextBlock Text="SAVE ARP SETTING" Margin="6,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button x:Name="ToggleArpBtn" Click="ToggleArp_Click"
+                    Height="36" HorizontalAlignment="Stretch"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Background="{DynamicResource RowSurfaceSoft}" Foreground="{DynamicResource TextPrimary}"
+                    Cursor="Arrow" Margin="0,0,0,6" IsEnabled="False">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon x:Name="ToggleArpIcon" Kind="Play" VerticalAlignment="Center" />
+                    <TextBlock x:Name="ToggleArpText" Text="START ARP" Margin="6,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Border x:Name="StatusBorder" Background="{DynamicResource RowSurfaceSoft}" CornerRadius="4" Padding="8,6" Visibility="Collapsed">
+                <TextBlock x:Name="StatusText" FontSize="11" Foreground="{DynamicResource TextMuted}" TextWrapping="Wrap" />
+            </Border>
+        </StackPanel>
+    </Grid>
+    </ScrollViewer>
+</Page>

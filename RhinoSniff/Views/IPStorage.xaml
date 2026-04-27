@@ -1,0 +1,247 @@
+﻿<UserControl x:Class="RhinoSniff.Views.IPStorage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             FontFamily="{DynamicResource AppFontFamily}"
+             Background="{DynamicResource AppBg}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{DynamicResource AppBg}" Padding="14,10"
+                BorderBrush="{DynamicResource Divider}" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="IP Storage"
+                           FontSize="15" FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextPrimary}"
+                           VerticalAlignment="Center" />
+                <Border Grid.Column="1" Background="{DynamicResource PillCapturingBg}"
+                        CornerRadius="10" Padding="8,2" Margin="10,0,0,0"
+                        VerticalAlignment="Center">
+                    <TextBlock x:Name="CountPillText" Text="0 ENTRIES"
+                               FontSize="9" FontWeight="Bold"
+                               Foreground="{DynamicResource PillCapturingText}" />
+                </Border>
+
+                <StackPanel Grid.Column="3" Orientation="Horizontal">
+                    <Button Height="28" Padding="10,0" Margin="0,0,6,0"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="Refresh_Click" Cursor="Hand"
+                            Background="{DynamicResource SidebarItemHover}"
+                            Foreground="{DynamicResource TextPrimary}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            ToolTip="Reload from disk">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Refresh" Width="13" Height="13" VerticalAlignment="Center" />
+                            <TextBlock Text="Refresh" Margin="4,0,0,0" FontSize="11" />
+                        </StackPanel>
+                    </Button>
+                    <Button Height="28" Padding="10,0" Margin="0,0,6,0"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="Clear_Click" Cursor="Hand"
+                            Background="{DynamicResource SidebarItemHover}"
+                            Foreground="{DynamicResource StatusDanger}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            ToolTip="Remove all entries">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="TrashCanOutline" Width="13" Height="13" VerticalAlignment="Center" />
+                            <TextBlock Text="Clear All" Margin="4,0,0,0" FontSize="11" />
+                        </StackPanel>
+                    </Button>
+                    <Button Height="28" Padding="12,0"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="NewEntry_Click" Cursor="Hand"
+                            Background="{DynamicResource AccentTealDark}"
+                            Foreground="{DynamicResource TextOnAccent}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            ToolTip="Add a new labeled IP">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Plus" Width="13" Height="13" VerticalAlignment="Center" />
+                            <TextBlock Text="New Label" Margin="4,0,0,0" FontSize="11" FontWeight="SemiBold" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Add + search sub-bar -->
+        <Border Grid.Row="1" Background="{DynamicResource AppBg}" Padding="14,10,14,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="260" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0" x:Name="AddIpInput" VerticalAlignment="Center"
+                         Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                         materialDesign:HintAssist.Hint="IP (e.g. 8.8.8.8)"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         KeyDown="AddInputs_KeyDown" />
+                <TextBox Grid.Column="1" x:Name="AddCommentInput" VerticalAlignment="Center"
+                         Margin="10,0,0,0"
+                         Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                         materialDesign:HintAssist.Hint="Comment (e.g. Home router, Work VPN)"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         KeyDown="AddInputs_KeyDown" />
+                <Button Grid.Column="2" Height="30" Margin="10,10,10,0" Padding="14,0"
+                        materialDesign:ButtonAssist.CornerRadius="4"
+                        Click="Add_Click" Cursor="Hand"
+                        Background="{DynamicResource AccentTealDark}"
+                        Foreground="{DynamicResource TextOnAccent}"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Plus" Width="13" Height="13" VerticalAlignment="Center" />
+                        <TextBlock Text="Add" Margin="4,0,0,0" FontSize="11" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Button>
+                <TextBox Grid.Column="3" x:Name="SearchBox" VerticalAlignment="Center"
+                         Foreground="{DynamicResource TextPrimary}" FontSize="12"
+                         materialDesign:HintAssist.Hint="Search IP or comment..."
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         TextChanged="Search_TextChanged" />
+            </Grid>
+        </Border>
+
+        <!-- Table -->
+        <Border Grid.Row="2" Margin="14,6,14,14"
+                Background="{DynamicResource CardBg}"
+                BorderBrush="{DynamicResource CardBorder}" BorderThickness="1"
+                CornerRadius="8">
+            <Grid>
+                <!-- Empty state -->
+                <StackPanel x:Name="EmptyState" VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Visibility="Collapsed">
+                    <materialDesign:PackIcon Kind="DatabaseOffOutline" Width="48" Height="48"
+                                             HorizontalAlignment="Center"
+                                             Foreground="{DynamicResource TextFaint}" />
+                    <TextBlock Text="No stored IPs yet"
+                               HorizontalAlignment="Center" Margin="0,8,0,4"
+                               FontSize="13" FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextSecondary}" />
+                    <TextBlock Text="Add an IP with a comment above, or right-click a row in Network Monitor and choose Add to Storage."
+                               HorizontalAlignment="Center" FontSize="10" TextWrapping="Wrap"
+                               MaxWidth="380" TextAlignment="Center"
+                               Foreground="{DynamicResource TextMuted}" />
+                </StackPanel>
+
+                <DataGrid x:Name="StorageGrid" AutoGenerateColumns="False"
+                          HeadersVisibility="Column"
+                          CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
+                          IsReadOnly="True"
+                          Background="Transparent" BorderThickness="0"
+                          RowBackground="{DynamicResource GridRowBg}"
+                          AlternatingRowBackground="{DynamicResource GridRowAlt}"
+                          Foreground="{DynamicResource TextPrimary}"
+                          GridLinesVisibility="Horizontal"
+                          HorizontalGridLinesBrush="{DynamicResource GridBorder}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="IP ADDRESS" Binding="{Binding Ip}" Width="200">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                    <Setter Property="Background" Value="{DynamicResource GridHeaderBg}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+                                    <Setter Property="FontSize" Value="10" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="Padding" Value="10,6" />
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Padding" Value="10,4" />
+                                    <Setter Property="FontFamily" Value="Consolas" />
+                                    <Setter Property="FontSize" Value="12" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="COMMENT" Binding="{Binding Comment}" Width="*">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                    <Setter Property="Background" Value="{DynamicResource GridHeaderBg}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+                                    <Setter Property="FontSize" Value="10" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="Padding" Value="10,6" />
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Padding" Value="10,4" />
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="CREATED" Binding="{Binding CreatedDisplay}" Width="160">
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                    <Setter Property="Background" Value="{DynamicResource GridHeaderBg}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+                                    <Setter Property="FontSize" Value="10" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="Padding" Value="10,6" />
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Padding" Value="10,4" />
+                                    <Setter Property="FontSize" Value="11" />
+                                    <Setter Property="Foreground" Value="{DynamicResource TextMuted}" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTemplateColumn Header="ACTIONS" Width="140">
+                            <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                    <Setter Property="Background" Value="{DynamicResource GridHeaderBg}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+                                    <Setter Property="FontSize" Value="10" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="Padding" Value="10,6" />
+                                </Style>
+                            </DataGridTemplateColumn.HeaderStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="6,2">
+                                        <Button Height="24" Width="24" Padding="0" Margin="0,0,4,0"
+                                                materialDesign:ButtonAssist.CornerRadius="3"
+                                                Click="EditRow_Click" Tag="{Binding Ip}" Cursor="Hand"
+                                                Background="Transparent"
+                                                Foreground="{DynamicResource AccentTeal}"
+                                                Style="{StaticResource MaterialDesignFlatButton}"
+                                                ToolTip="Edit comment">
+                                            <materialDesign:PackIcon Kind="PencilOutline" Width="13" Height="13" />
+                                        </Button>
+                                        <Button Height="24" Width="24" Padding="0"
+                                                materialDesign:ButtonAssist.CornerRadius="3"
+                                                Click="DeleteRow_Click" Tag="{Binding Ip}" Cursor="Hand"
+                                                Background="Transparent"
+                                                Foreground="{DynamicResource StatusDanger}"
+                                                Style="{StaticResource MaterialDesignFlatButton}"
+                                                ToolTip="Delete entry">
+                                            <materialDesign:PackIcon Kind="TrashCanOutline" Width="13" Height="13" />
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
